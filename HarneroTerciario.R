@@ -14,7 +14,7 @@ ruta_excel<- "C:\\Users\\escobarc0705\\OneDrive - ARCADIS\\Escritorio\\Chancado\
 #Hojas de Excel
 excel_sheets(ruta_excel)
 
-#Importar Datos de Excel de correa de recuperacion
+#Importar Datos de Excel de Harnero Terciario
 datos<- read_excel(ruta_excel,sheet = "Harnero Terciario")
 
 
