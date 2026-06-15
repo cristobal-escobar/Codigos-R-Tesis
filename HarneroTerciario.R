@@ -149,7 +149,7 @@ legend("topright",
 
 
 
-# MANTENCION
+# Manteciones
 
 tiempo_MA <- datos$`Tiempo Entre Mantencion`
 status_MA<- datos$Status...7
@@ -174,7 +174,7 @@ colnames(f_ma) <- c("left", "right")
 f_MA <- f_ma[!is.na(f_ma$left), ]
 
 
-# Distribuciones Mantencion
+# Distribuciones tiempo entre MANTENCIONES
 a_W2 <- fitdistcens(f_MA, "weibull")
 a_n2 <- fitdistcens(f_MA, "norm")
 a_ln2 <- fitdistcens(f_MA, "lnorm")
@@ -208,7 +208,6 @@ plot(tiempos_1,den_exp1,main = "Exponencial", xlab = "Horas")
 
 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
-#max_y2 <- max(hist(falla_O, plot=FALSE)$density, den_log7)
 hist(tiempo_MA, breaks = 10, prob = TRUE, main ="Histograma y curva aproximada", ylab = "Densidad")
 lines(tiempos_1,den_log1,col = "red",lwd = 2)
 
@@ -232,11 +231,11 @@ legend("topright",
 
 
 
-# Duracion de Mantencion
+# Duracion de MANTENCIONES
 
 falla_MA <- datos$Mantencion
 
-# Quitamos los NaN I
+# Quitamos los NaN 
 
 falla_MA <- falla_MA%>%
   na.omit()
@@ -267,7 +266,6 @@ plot(tiemposF_2,den_gamma5,main = "gamma", xlab = "Horas")
 plot(tiemposF_2,den_exp5,main = "Exponencial", xlab = "Horas")
 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
-#max_y2 <- max(hist(falla_O, plot=FALSE)$density, den_log7)
 hist(falla_MA, breaks = 20, prob = TRUE, main ="Histograma y curva aproximada", ylab = "Densidad")
 lines(tiemposF_2,den_log5,col = "red",lwd = 2)
 
