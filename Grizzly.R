@@ -308,7 +308,7 @@ legend("topright",
 
 # TIME TO REPAIR (CUANTO DURA LA FALLA)
 
-# Falla Electrica
+# Fallas ELECTRICAS
 
 falla_E <- datos$Falla_E
 
@@ -329,7 +329,6 @@ par(mfrow = c(1,1), mar = c(4,4,2,1))
 plot.legend <- c("lognormal","gamma","exponecial")
 
 cdfcomp(list(tln,tg,texp),legendtext = plot.legend,main = "Tiempo reparacion fallas Electricas")
-
 
 
 # Graficamos Distribuciones obtenidas
@@ -367,10 +366,7 @@ hist(falla_E, prob = TRUE, col = "lightgray",
      xlab = "Horas", ylab = "Densidad")
 
 
-
-
-
-# Falla Mecanica
+# Fallas MECANICAS
 
 falla_M <- datos$Falla_M
 
@@ -406,7 +402,6 @@ plot(tiemposF_2,den_exp5,main = "Exponencial", xlab = "Horas")
 
 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
-#max_y2 <- max(hist(falla_O, plot=FALSE)$density, den_log7)
 hist(falla_M, prob = TRUE, main ="Histograma y curva aproximada", ylab = "Densidad")
 lines(tiemposF_2,den_log5,col = "red",lwd = 2)
 
@@ -428,7 +423,7 @@ legend("topright",
 
 
 
-# Falla intrumentista
+# Fallas INSTRUMENTACION
 
 falla_I <- datos$Falla_I
 
@@ -464,7 +459,6 @@ plot(tiemposF_3,den_exp6,main = "Exponencial", xlab = "Horas")
 
 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
-#max_y2 <- max(hist(falla_O, plot=FALSE)$density, den_log7)
 hist(falla_I, prob = TRUE, main ="Histograma y curva aproximada", ylab = "Densidad")
 lines(tiemposF_3,den_log6,col = "red",lwd = 2)
 
@@ -485,10 +479,7 @@ legend("topright",
        lwd = 2)
 
 
-
-
-# Falla Operacional
-
+# Fallas OPERACIONALES
 falla_O <- datos$Falla_O
 
 # Quitamos los NaN O
@@ -535,12 +526,11 @@ legend("topright",
 
 
 
-# Mantencion
+# Mantenciones
 tiempo_MA <- datos$`Tiempo Entre MA`
 status_MA<- datos$Status_MA
 
-# Quitamos los NaN Operacional
-
+# Quitamos los NaN 
 tiempo_MA <- tiempo_MA%>%
   na.omit()
 
@@ -558,7 +548,7 @@ f_ma <- data.frame(
 colnames(f_ma) <- c("left", "right")
 f_MA <- f_ma[!is.na(f_ma$left), ]
 
-# Distribuciones tiempo fallas MECANICOS
+# Distribuciones tiempo entre MANTENCIONES
 a_W5 <- fitdistcens(f_MA, "weibull")
 a_n5 <- fitdistcens(f_MA, "norm")
 a_ln5 <- fitdistcens(f_MA, "lnorm")
@@ -592,7 +582,6 @@ plot(tiempos_4,den_expMA,main = "Exponencial", xlab = "Horas")
 
 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
-#max_y2 <- max(hist(falla_O, plot=FALSE)$density, den_log7)
 hist(tiempo_MA, prob = TRUE, main ="Histograma y curva aproximada", ylab = "Densidad")
 lines(tiempos_4,den_expMA,col = "red",lwd = 2)
 
@@ -613,11 +602,7 @@ legend("topright",
        lwd = 2)
 
 
-
-
-
-
-# Demora de Mantenciones
+# Duración de MANTENCIONES
 
 falla_MA <- datos$Falla_MA
 
@@ -672,8 +657,6 @@ legend("topright",
        legend = c("Lognormal", "gamma", "Exponencial"),
        col = c("red", "blue", "green"),
        lwd = 2)
-
-
 
 
 
