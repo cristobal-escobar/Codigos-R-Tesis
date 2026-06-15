@@ -20,16 +20,16 @@ datos<- read_excel(ruta_excel,sheet = "Harnero Terciario")
 
 # TIEMPO ENTRE FALLAS
 
+# Falla GENERAL
 tiempo_h <- datos$`Tiempo Entre Fallas`
 status_h<- datos$Status...3
-# Quitamos los NaN
 
+# Quitamos los NaN
 tiempo_h <- tiempo_h%>%
   na.omit()
 
 status_h<- status_h%>%
   na.omit()
-
 
 # Ajustar la distribución con datos censurados
 f <- data.frame(
@@ -41,7 +41,7 @@ f <- data.frame(
 colnames(f) <- c("left", "right")
 f_w <- f[!is.na(f$left), ]
 
-# Distribuciones tiempo fallas
+# Distribuciones tiempo entre fallas GENERALES
 a_W <- fitdistcens(f_w, "weibull")
 a_n <- fitdistcens(f_w, "norm")
 a_ln <- fitdistcens(f_w, "lnorm")
@@ -69,7 +69,6 @@ den_exp <- dexp(tiempos, rate = a_exp$estimate["rate"])
 
 par(mfrow = c(2,2), mar = c(4,4,2,1))
 plot(tiempos,den_weibull,main = "Weibull", xlab = "Horas")
-
 plot(tiempos,den_normal,main = "Normal", xlab = "Horas")
 plot(tiempos,den_log,main = "Lognormal", xlab = "Horas")
 plot(tiempos,den_exp,main = "Exponencial", xlab = "Horas")
@@ -95,9 +94,7 @@ legend("topright",
        lwd = 2)
 
 
-
-
-# Falla General
+# TIME TO REPAIR (Duracion de la falla)
 
 falla_h <- datos$`Fallas Generales`
 
