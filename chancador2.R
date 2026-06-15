@@ -54,7 +54,7 @@ summary(a_n)
 summary(a_ln)
 summary(a_exp)
 
-# Graficamos
+# Graficamos y vemos cual visualmente se acerca más
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 plot.legend <- c("Weibull","normal", "lognormal","exponencial")
 cdfcompcens(list(a_W,a_n,a_ln,a_exp), legendtext = plot.legend,main = "Tiempo entre fallas Electricas")
@@ -74,10 +74,12 @@ plot(tiempos,den_exp,main = "Exponencial", xlab = "Horas")
 
 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
-#max_y2 <- max(hist(falla_O, plot=FALSE)$density, den_log7)
+
 hist(tiempo_E, prob = TRUE, main ="Histograma y curva aproximada", ylab = "Densidad")
 lines(tiempos,den_log,col = "red",lwd = 2)
 
+
+# Histograma 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 hist(tiempo_E, prob = TRUE, col = "lightgray",
      main = "Comparación de distribuciones",
@@ -95,9 +97,7 @@ legend("topright",
        lwd = 2)
 
 
-
-
-# FALLA Electronica
+# FALLA ELECTRONICA/INSTRUMENTACIÓN
 tiempo_EL <- datos$`Tiempo Entre Fallas EL`
 status_EL<- datos$Status_EL
 
@@ -121,7 +121,7 @@ colnames(f_d) <- c("left", "right")
 f_D <- f_d[!is.na(f_d$left), ]
 
 
-# Distribuciones tiempo fallas Electronica
+# Distribuciones tiempo entre fallas ELECTRONICAS/INSTRUMENTACIÓN
 a_W2 <- fitdistcens(f_D, "weibull")
 a_n2 <- fitdistcens(f_D, "norm")
 a_ln2 <- fitdistcens(f_D, "lnorm")
@@ -133,7 +133,7 @@ summary(a_n2)
 summary(a_ln2)
 summary(a_exp2)
 
-# Graficamos 
+# Graficamos para ver cual visualmente se acerca más
 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 plot.legend <- c("Weibull","normal", "lognormal","exponencial")
@@ -146,7 +146,6 @@ den_weibull1 <- dweibull(tiempos_1, scale = a_W2$estimate["scale"], shape = a_W2
 den_normal1 <- dnorm(tiempos_1,mean = a_n2$estimate["mean"],sd = a_n2$estimate["sd"])
 den_log1 <- dlnorm(tiempos_1, meanlog = a_ln2$estimate["meanlog"],sdlog = a_ln2$estimate["sdlog"])
 den_exp1 <- dexp(tiempos_1, rate = a_exp2$estimate["rate"])
-
 par(mfrow = c(2,2), mar = c(4,4,2,1))
 plot(tiempos_1,den_weibull1,main = "Weibull", xlab = "Horas")
 plot(tiempos_1,den_normal1,main = "Normal", xlab = "Horas")
@@ -154,24 +153,24 @@ plot(tiempos_1,den_log1,main = "Lognormal", xlab = "Horas")
 plot(tiempos_1,den_exp1,main = "Exponencial", xlab = "Horas")
 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
-#max_y2 <- max(hist(falla_O, plot=FALSE)$density, den_log7)
+
+
+# Histograma
 hist(tiempo_EL, breaks = 20, prob = TRUE, main ="Comparación de distribuciones", ylab = "Densidad",xlab = "Horas")
 lines(tiempos_1, den_weibull1, col = "red", lwd = 2)
 lines(tiempos_1, den_normal1, col = "blue", lwd = 2)
 lines(tiempos_1, den_log1, col = "green", lwd = 2)
 lines(tiempos_1, den_exp1, col = "purple", lwd = 2)
-
-
 legend("topright",
        legend = c("Weibull", "Normal", "Lognormal", "Exponencial"),
        col = c("red", "blue", "green", "purple"),
        lwd = 2)
 
-# Falla Operacional
+# Falla OPERACIONAL
 tiempo_O <- datos$`Tiempo Entre Fallas O`
 status_O<- datos$Status_O
 
-# Quitamos los NaN Operacional
+# Quitamos los NaN 
 
 tiempo_O <- tiempo_O%>%
   na.omit()
@@ -190,7 +189,7 @@ f_o <- data.frame(
 colnames(f_o) <- c("left", "right")
 f_O <- f_o[!is.na(f_o$left), ]
 
-# Distribuciones tiempo fallas Operacionales
+# Distribuciones tiempo entre fallas OPERACIONALES
 a_W4 <- fitdistcens(f_O, "weibull")
 a_n4 <- fitdistcens(f_O, "norm")
 a_ln4 <- fitdistcens(f_O, "lnorm")
@@ -202,8 +201,7 @@ summary(a_n4)
 summary(a_ln4)
 summary(a_exp4)
 
-# Graficamos 
-
+# Graficamos para ver cual visualmente se acerca más
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 plot.legend <- c("Weibull","normal", "lognormal","exponencial")
 cdfcompcens(list(a_W4,a_n4,a_ln4,a_exp4), legendtext = plot.legend,main = "Tiempo entre fallas operacionales")
@@ -223,22 +221,18 @@ plot(tiempos_3,den_log3,main = "Lognormal", xlab = "Horas")
 plot(tiempos_3,den_exp3,main = "Exponencial", xlab = "Horas")
 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
-#max_y2 <- max(hist(falla_O, plot=FALSE)$density, den_log7)
+
+# Histograma
 hist(tiempo_O, prob = TRUE, main ="Histograma y curva aproximada", ylab = "Densidad")
 lines(tiempos_3,den_log3,col = "red",lwd = 2)
-
-
-
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 hist(tiempo_O, prob = TRUE, col = "lightgray",
      main = "Comparación de distribuciones",
      xlab = "Horas", ylab = "Densidad")
-
 lines(tiempos_3, den_weibull3, col = "red", lwd = 2)
 lines(tiempos_3, den_normal3, col = "blue", lwd = 2)
 lines(tiempos_3, den_log3, col = "green", lwd = 2)
 lines(tiempos_3, den_exp3, col = "purple", lwd = 2)
-
 legend("topright",
        legend = c("Weibull", "Normal", "Lognormal","Exponencial"),
        col = c("red", "blue", "green","purple"),
@@ -248,11 +242,11 @@ legend("topright",
 # TIME TO REPAIR (CUANTO DURA LA FALLA)
 
 
-# Falla Electrica
+# Fallas ELECTRICAS
 
 falla_E <- datos$Falla_E
 
-# Quitamos los NaN I
+# Quitamos los NaN 
 
 falla_E <- falla_E%>%
   na.omit()
@@ -265,11 +259,11 @@ summary(tln)
 summary(tg)
 summary(texp)
 
+
+# Graficamos y vemos cual visualmente se acerca más
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 plot.legend <- c("lognormal","gamma","exponecial")
-
 cdfcomp(list(tln,tg,texp),legendtext = plot.legend,main = "Tiempo reparacion fallas Electricas")
-
 
 
 # Graficamos Distribuciones obtenidas
@@ -277,9 +271,7 @@ tiemposF_1 <- seq(min(falla_E), max(falla_E), length.out = 1000)
 den_log4 <- dlnorm(tiemposF_1, meanlog = tln$estimate["meanlog"],sdlog = tln$estimate["sdlog"])
 den_gamma4 <-dgamma(tiemposF_1,shape = tg$estimate["shape"], rate = tg$estimate["rate"])
 den_exp4 <- dexp(tiemposF_1, rate = texp$estimate["rate"])
-
 par(mfrow = c(2,2), mar = c(4,4,2,1))
-
 plot(tiemposF_1,den_log4,main = "Lognormal", xlab = "Horas")
 plot(tiemposF_1,den_gamma4,main = "gamma", xlab = "Horas")
 plot(tiemposF_1,den_exp4,main = "Exponencial", xlab = "Horas")
@@ -287,12 +279,12 @@ plot(tiemposF_1,den_exp4,main = "Exponencial", xlab = "Horas")
 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 max_y2 <- max(hist(falla_E, plot=FALSE)$density, den_log4)
+
+# Histograma
 hist(falla_E, breaks = 20, prob = TRUE, ylim = c(0,max_y2), main ="Comparación de distribuciones", ylab = "Densidad",xlab = "Horas")
 lines(tiemposF_1, den_log4, col = "red", lwd = 2)
 lines(tiemposF_1, den_gamma4, col = "blue", lwd = 2)
 lines(tiemposF_1, den_exp4, col = "green", lwd = 2)
-
-
 legend("topright",
        legend = c("Lognormal", "gamma", "Exponencial"),
        col = c("red", "blue", "green"),
@@ -300,12 +292,11 @@ legend("topright",
 
 
 
-# Falla Electronica
+# Falla ELECTRONICA/INSTRUMENTACION
 
 falla_EL <- datos$Falla_EL
 
-# Quitamos los NaN I
-
+# Quitamos los NaN 
 falla_EL <- falla_EL%>%
   na.omit()
 
@@ -333,28 +324,24 @@ par(mfrow = c(2,2), mar = c(4,4,2,1))
 plot(tiemposF_2,den_log5,main = "Lognormal", xlab = "Horas")
 plot(tiemposF_2,den_gamma5,main = "gamma", xlab = "Horas")
 plot(tiemposF_2,den_exp5,main = "Exponencial", xlab = "Horas")
-
-
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 max_y4 <- max(hist(falla_EL, plot=FALSE)$density, den_log5)
-hist(falla_EL, prob = TRUE, ylim = c(0,max_y4), main ="Comparación de distribuciones", ylab = "Densidad",xlab = "Horas")
 
+# Histograma
+hist(falla_EL, prob = TRUE, ylim = c(0,max_y4), main ="Comparación de distribuciones", ylab = "Densidad",xlab = "Horas")
 lines(tiemposF_2, den_log5, col = "red", lwd = 2)
 lines(tiemposF_2, den_gamma5, col = "blue", lwd = 2)
 lines(tiemposF_2, den_exp5, col = "green", lwd = 2)
-
-
 legend("topright",
        legend = c("Lognormal", "gamma", "Exponencial"),
        col = c("red", "blue", "green"),
        lwd = 2)
 
-
-# Falla Operacional
+# Falla OPERACIONAL
 
 falla_O <- datos$Falla_O
 
-# Quitamos los NaN O
+# Quitamos los NaN 
 
 falla_O <- falla_O%>%
   na.omit()
@@ -377,37 +364,32 @@ tiemposF_4 <- seq(min(falla_O), max(falla_O), length.out = 1000)
 den_log7 <- dlnorm(tiemposF_4, meanlog = tln3$estimate["meanlog"],sdlog = tln3$estimate["sdlog"])
 den_gamma7 <-dgamma(tiemposF_4,shape = tg3$estimate["shape"], rate = tg3$estimate["rate"])
 den_exp7 <- dexp(tiemposF_4, rate = texp3$estimate["rate"])
-
 par(mfrow = c(2,2), mar = c(4,4,2,1))
-
 plot(tiemposF_4,den_log7,main = "Lognormal", xlab = "Horas")
 plot(tiemposF_4,den_gamma7,main = "gamma", xlab = "Horas")
 plot(tiemposF_4,den_exp7,main = "Exponencial", xlab = "Horas")
-
-
 par(mfrow = c(1,1), mar = c(4,4,2,1))
+
 max_y6 <- max(hist(falla_O, plot=FALSE)$density, den_log7)
+
+# Histograma
 hist(falla_O, breaks = 20, prob = TRUE, ylim = c(0,max_y6), main ="Comparación de distribuciones", ylab = "Densidad",xlab = "Horas")
 lines(tiemposF_4, den_log7, col = "red", lwd = 2)
 lines(tiemposF_4, den_gamma7, col = "blue", lwd = 2)
 lines(tiemposF_4, den_exp7, col = "green", lwd = 2)
-
-
 legend("topright",
        legend = c("Lognormal", "gamma", "Exponencial"),
        col = c("red", "blue", "green"),
        lwd = 2)
 
 
-# Mantencion
+# Mantenciones
 tiempo_MA <- datos$`Tiempo Entre MA`
 status_MA<- datos$Status_MA
 
-# Quitamos los NaN Operacional
-
+# Quitamos los NaN 
 tiempo_MA <- tiempo_MA%>%
   na.omit()
-
 status_MA<- status_MA%>%
   na.omit()
 
@@ -422,7 +404,7 @@ f_ma <- data.frame(
 colnames(f_ma) <- c("left", "right")
 f_MA <- f_ma[!is.na(f_ma$left), ]
 
-# Distribuciones tiempo fallas MECANICOS
+# Distribuciones tiempo entre MANTENCIONES
 a_W5 <- fitdistcens(f_MA, "weibull")
 a_n5 <- fitdistcens(f_MA, "norm")
 a_ln5 <- fitdistcens(f_MA, "lnorm")
@@ -435,7 +417,7 @@ summary(a_ln5)
 summary(a_exp5)
 
 
-# Graficamos 
+# Graficamos para ver cual visualmente se acerca más
 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 plot.legend <- c("Weibull","normal", "lognormal","exponencial")
@@ -457,24 +439,24 @@ plot(tiempos_4,den_expMA,main = "Exponencial", xlab = "Horas")
 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 max_y7 <- max(hist(tiempo_MA, plot=FALSE)$density, den_logMA)
+
+# Histograma
 hist(tiempo_MA, breaks = 30, prob = TRUE,ylim = c(0,max_y7), main ="Comparación de distribuciones", ylab = "Densidad",xlab = "Horas")
 lines(tiempos_4, den_weibullMA, col = "red", lwd = 2)
 lines(tiempos_4, den_normalMA, col = "blue", lwd = 2)
 lines(tiempos_4, den_logMA, col = "green", lwd = 2)
 lines(tiempos_4, den_expMA, col = "purple", lwd = 2)
-
-
 legend("topright",
        legend = c("Weibull", "Normal", "Lognormal","Exponencial"),
        col = c("red", "blue", "green","purple"),
        lwd = 2)
 
 
-# Demora de Mantenciones
+# Duracion de MANTENCIONES
 
 falla_MA <- datos$Falla_MA
 
-# Quitamos los NaN O
+# Quitamos los NaN 
 
 falla_MA <- falla_MA%>%
   na.omit()
@@ -503,13 +485,13 @@ par(mfrow = c(2,2), mar = c(4,4,2,1))
 plot(tiemposF_5,den_log8,main = "Lognormal", xlab = "Horas")
 plot(tiemposF_5,den_gamma8,main = "gamma", xlab = "Horas")
 plot(tiemposF_5,den_exp8,main = "Exponencial", xlab = "Horas")
-
-
 par(mfrow = c(1,1), mar = c(4,4,2,1))
-#max_y2 <- max(hist(falla_O, plot=FALSE)$density, den_log7)
+
+
 hist(falla_MA, prob = TRUE, main ="Histograma y curva aproximada", ylab = "Densidad")
 lines(tiemposF_5,den_gamma8,col = "red",lwd = 2)
 
+# Histograma
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 hist(falla_MA, prob = TRUE, col = "lightgray",
      main = "Comparación de distribuciones",
