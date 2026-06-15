@@ -4,7 +4,6 @@ library(tidyverse)
 library(fitdistrplus)
 
 
-
 #Buscar Ruta archivo
 file.choose()
 
@@ -20,7 +19,7 @@ datos<- read_excel(ruta_excel,sheet = "ChancadorN2")
 
 # TIEMPO ENTRE FALLAS
 
-# Falla Electrica
+# Falla ELECTRICA
 tiempo_E <- datos$`Tiempo Entre Fallas E`
 status_E<- datos$Status_M
 
@@ -43,7 +42,7 @@ f <- data.frame(
 colnames(f) <- c("left", "right")
 f_w <- f[!is.na(f$left), ]
 
-# Distribuciones tiempo fallas
+# Distribuciones tiempo entre fallas ELECTRICAS
 a_W <- fitdistcens(f_w, "weibull")
 a_n <- fitdistcens(f_w, "norm")
 a_ln <- fitdistcens(f_w, "lnorm")
@@ -55,9 +54,7 @@ summary(a_n)
 summary(a_ln)
 summary(a_exp)
 
-
-# Graficamos y vemos cual visualmente se acerca más 
-
+# Graficamos
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 plot.legend <- c("Weibull","normal", "lognormal","exponencial")
 cdfcompcens(list(a_W,a_n,a_ln,a_exp), legendtext = plot.legend,main = "Tiempo entre fallas Electricas")
