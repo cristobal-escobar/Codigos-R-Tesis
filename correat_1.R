@@ -4,7 +4,6 @@ library(tidyverse)
 library(fitdistrplus)
 
 
-
 #Buscar Ruta archivo
 file.choose()
 
@@ -56,11 +55,11 @@ summary(a_ln)
 summary(a_exp)
 
 
-# Graficamos y vemos cual visualmente se acerca más 
-
+# Graficamos y vemos cual se acerca más 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 plot.legend <- c("Weibull","normal", "lognormal","exponencial")
 cdfcompcens(list(a_W,a_n,a_ln,a_exp), legendtext = plot.legend,main = "Tiempo entre fallas Electricas")
+
 
 # Graficamos Distribuciones obtenidas
 tiempos <- seq(min(tiempo_E), max(tiempo_E), length.out = 1000)
@@ -73,6 +72,7 @@ plot(tiempos,den_weibull,main = "Weibull", xlab = "Horas")
 plot(tiempos,den_normal,main = "Normal", xlab = "Horas")
 plot(tiempos,den_log,main = "Lognormal", xlab = "Horas")
 plot(tiempos,den_exp,main = "Exponencial", xlab = "Horas")
+
 
 # Histograma
 par(mfrow = c(1,1), mar = c(4,4,2,1))
@@ -128,7 +128,7 @@ summary(a_n2)
 summary(a_ln2)
 summary(a_exp2)
 
-# Graficamos para ver cual visualmente se acerca más
+# Graficamos 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 plot.legend <- c("Weibull","normal", "lognormal","exponencial")
 cdfcompcens(list(a_W2,a_n2,a_ln2,a_exp2), legendtext = plot.legend,main = "Tiempo entre fallas Mecanicas")
@@ -145,6 +145,7 @@ plot(tiempos_1,den_weibull1,main = "Weibull", xlab = "Horas")
 plot(tiempos_1,den_normal1,main = "Normal", xlab = "Horas")
 plot(tiempos_1,den_log1,main = "Lognormal", xlab = "Horas")
 plot(tiempos_1,den_exp1,main = "Exponencial", xlab = "Horas")
+
 
 # Histograma
 par(mfrow = c(1,1), mar = c(4,4,2,1))
@@ -197,7 +198,8 @@ summary(a_n3)
 summary(a_ln3)
 summary(a_exp3)
 
-# Graficamos para ver cual visualmente se acerca más
+
+# Graficamos 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 plot.legend <- c("Weibull","normal", "lognormal","exponencial")
 cdfcompcens(list(a_W3,a_n3,a_ln3,a_exp3), legendtext = plot.legend,main = "Tiempo entre fallas Instrumentacion")
@@ -215,6 +217,7 @@ plot(tiempos_2,den_normal2,main = "Normal", xlab = "Horas")
 plot(tiempos_2,den_log2,main = "Lognormal", xlab = "Horas")
 plot(tiempos_2,den_exp2,main = "Exponencial", xlab = "Horas")
 
+
 # Histograma
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 hist(tiempo_I, prob = TRUE, main ="Histograma y curva aproximada", ylab = "Densidad")
@@ -231,6 +234,7 @@ legend("topright",
        legend = c("Weibull", "Normal", "Lognormal", "Exponencial"),
        col = c("red", "blue", "green", "purple"),
        lwd = 2)
+
 
 # Falla OPERACIONAL
 tiempo_O <- datos$`Tiempo Entre Fallas O`
@@ -265,8 +269,7 @@ summary(a_W4)
 summary(a_n4)
 summary(a_ln4)
 
-# Graficamos para ver cual visualmente se acerca más 
-
+# Graficamos 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 plot.legend <- c("Weibull","normal", "lognormal")
 cdfcompcens(list(a_W4,a_n4,a_ln4), legendtext = plot.legend,main = "Tiempo entre fallas operacionales")
@@ -302,8 +305,6 @@ legend("topright",
 
 
 
-
-
 # TIME TO REPAIR (CUANTO DURA LA FALLA)
 
 # Fallas ELECTRICAS
@@ -319,15 +320,16 @@ tln <- fitdist(falla_E,"lnorm")
 tg <- fitdist(falla_E,"gamma")
 texp <- fitdist(falla_E,"exp")
 
+
+# Parametros
 summary(tln)
 summary(tg)
 summary(texp)
 
-# Graficamos y vemos cual visualmente se acerca más
+# Graficamos
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 plot.legend <- c("lognormal","gamma","exponecial")
 cdfcomp(list(tln,tg,texp),legendtext = plot.legend,main = "Tiempo reparacion fallas Electricas")
-
 
 
 # Graficamos Distribuciones obtenidas
@@ -339,6 +341,8 @@ par(mfrow = c(2,2), mar = c(4,4,2,1))
 plot(tiemposF_1,den_log4,main = "Lognormal", xlab = "Horas")
 plot(tiemposF_1,den_gamma4,main = "gamma", xlab = "Horas")
 plot(tiemposF_1,den_exp4,main = "Exponencial", xlab = "Horas")
+
+
 
 # Histograma
 par(mfrow = c(1,1), mar = c(4,4,2,1))
@@ -369,11 +373,12 @@ tln1 <- fitdist(falla_M,"lnorm")
 tg1 <- fitdist(falla_M,"gamma")
 texp1 <- fitdist(falla_M,"exp")
 
+# Parametros
 summary(tln1)
 summary(tg1)
 summary(texp1)
 
-# Graficamos y vemos cual visualmente se acerca más
+# Graficamos
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 plot.legend <- c("lognormal","gamma","exponecial")
 cdfcomp(list(tln1,tg1,texp1),legendtext = plot.legend,main = "Tiempo reparacion fallas mecanicas")
@@ -420,10 +425,10 @@ tln2 <- fitdist(falla_I,"lnorm")
 tg2 <- fitdist(falla_I,"gamma")
 texp2 <- fitdist(falla_I,"exp")
 
+# Parametros
 summary(tln2)
 summary(tg2)
 summary(texp2)
-
 
 # Graficamos para ver cual visualmente se acerca más
 par(mfrow = c(1,1), mar = c(4,4,2,1))
@@ -453,7 +458,6 @@ legend("topright",
        lwd = 2)
 
 
-
 # Falla OPERACIONAL
 
 falla_O <- datos$Falla_O
@@ -467,6 +471,8 @@ tln3 <- fitdist(falla_O,"lnorm")
 tg3 <- fitdist(falla_O,"gamma")
 texp3 <- fitdist(falla_O,"exp")
 
+
+# Parametros
 summary(tln3)
 summary(tg3)
 summary(texp3)
@@ -588,6 +594,7 @@ tln4 <- fitdist(falla_MA,"lnorm")
 tg4 <- fitdist(falla_MA,"gamma")
 texp4 <- fitdist(falla_MA,"exp")
 
+# Parametros
 summary(tln4)
 summary(tg4)
 summary(texp4)
