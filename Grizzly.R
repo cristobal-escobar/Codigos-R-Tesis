@@ -20,17 +20,17 @@ datos<- read_excel(ruta_excel,sheet = "Grizzly")
 
 # TIEMPO ENTRE FALLAS
 
-# Falla Electrica
+# Falla ELECTRICA
 tiempo_E <- datos$`Tiempo Entre Fallas E`
 status_E<- datos$Status_M...4
-# Quitamos los NaN
+
+#Quitamos los NaN
 
 tiempo_E <- tiempo_E%>%
   na.omit()
 
 status_E<- status_E%>%
   na.omit()
-
 
 # Ajustar la distribución con datos censurados
 f <- data.frame(
@@ -42,7 +42,7 @@ f <- data.frame(
 colnames(f) <- c("left", "right")
 f_w <- f[!is.na(f$left), ]
 
-# Distribuciones tiempo fallas
+# Distribuciones tiempo entre fallas ELECTRICAS
 a_W <- fitdistcens(f_w, "weibull")
 a_n <- fitdistcens(f_w, "norm")
 a_ln <- fitdistcens(f_w, "lnorm")
@@ -92,16 +92,16 @@ legend("topright",
 
 
 
-# FALLA MECANICA
+# Falla MECANICA
 tiempo_M <- datos$`Tiempo Entre Fallas M`
 status_M<- datos$Status_M...8
 
-# Quitamos los NaN MECANICO
+# Quitamos los NaN 
 
 tiempo_M <- tiempo_M%>%
   na.omit()
 
-# Distribuciones tiempo fallas MECANICOS
+# Distribuciones tiempo entre fallas MECANICOS
 a_W2 <- fitdist(tiempo_M, "weibull")
 a_n2 <- fitdist(tiempo_M, "norm")
 a_ln2 <- fitdist(tiempo_M, "lnorm")
@@ -136,7 +136,6 @@ plot(tiempos_1,den_exp1,main = "Exponencial", xlab = "Horas")
 
 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
-#max_y2 <- max(hist(falla_O, plot=FALSE)$density, den_log7)
 hist(tiempo_M, prob = TRUE, main ="Histograma y curva aproximada", ylab = "Densidad")
 lines(tiempos_1,den_log1,col = "red",lwd = 2)
 
@@ -157,23 +156,17 @@ legend("topright",
        lwd = 2)
 
 
-
-
-
-
-
-# FALLA INSTRUMENTACION
+# Falla INSTRUMENTACION
 tiempo_I <- datos$`Tiempo Entre Fallas I`
 status_I<- datos$Status_I
 
-# Quitamos los NaN Instrumentacion
+# Quitamos los NaN 
 
 tiempo_I <- tiempo_I%>%
   na.omit()
 
 status_I<- status_I%>%
   na.omit()
-
 
 #Ajustar la distribución con datos censurados
 f_i <- data.frame(
@@ -185,7 +178,7 @@ f_i <- data.frame(
 colnames(f_i) <- c("left", "right")
 f_I <- f_i[!is.na(f_i$left), ]
 
-# Distribuciones tiempo fallas MECANICOS
+# Distribuciones tiempo entre fallas INSTRUMENTACIÓN
 a_W3 <- fitdistcens(f_I, "weibull")
 a_n3 <- fitdistcens(f_I, "norm")
 a_ln3 <- fitdistcens(f_I, "lnorm")
@@ -198,11 +191,9 @@ summary(a_ln3)
 summary(a_exp3)
 
 # Graficamos 
-
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 plot.legend <- c("Weibull","normal", "lognormal","exponencial")
 cdfcompcens(list(a_W3,a_n3,a_ln3,a_exp3), legendtext = plot.legend,main = "Tiempo entre fallas Instrumentacion")
-
 
 # Graficamos Distribuciones obtenidas
 tiempos_2 <- seq(min(tiempo_I), max(tiempo_I), length.out = 1000)
@@ -219,7 +210,6 @@ plot(tiempos_2,den_exp2,main = "Exponencial", xlab = "Horas")
 
 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
-#max_y2 <- max(hist(falla_O, plot=FALSE)$density, den_log7)
 hist(tiempo_I, prob = TRUE, main ="Histograma y curva aproximada", ylab = "Densidad")
 lines(tiempos_2,den_weibull2,col = "red",lwd = 2)
 
@@ -241,18 +231,17 @@ legend("topright",
 
 
 
-# Falla Operacional
+# Falla OPERACIONAL
 tiempo_O <- datos$`Tiempo Entre Fallas O`
 status_O<- datos$Status_O
 
-# Quitamos los NaN Operacional
+# Quitamos los NaN 
 
 tiempo_O <- tiempo_O%>%
   na.omit()
 
 status_O<- status_O%>%
   na.omit()
-
 
 #Ajustar la distribución con datos censurados
 f_o <- data.frame(
@@ -264,7 +253,7 @@ f_o <- data.frame(
 colnames(f_o) <- c("left", "right")
 f_O <- f_o[!is.na(f_o$left), ]
 
-# Distribuciones tiempo fallas MECANICOS
+# Distribuciones tiempo entre fallas OPERACIONALES
 a_W4 <- fitdistcens(f_O, "weibull")
 a_n4 <- fitdistcens(f_O, "norm")
 a_ln4 <- fitdistcens(f_O, "lnorm")
@@ -277,7 +266,6 @@ summary(a_ln4)
 summary(a_exp4)
 
 # Graficamos 
-
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 plot.legend <- c("Weibull","normal", "lognormal","exponencial")
 cdfcompcens(list(a_W4,a_n4,a_ln4,a_exp4), legendtext = plot.legend,main = "Tiempo entre fallas operacionales")
@@ -298,10 +286,8 @@ plot(tiempos_3,den_exp3,main = "Exponencial", xlab = "Horas")
 
 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
-#max_y2 <- max(hist(falla_O, plot=FALSE)$density, den_log7)
 hist(tiempo_O, prob = TRUE, main ="Histograma y curva aproximada", ylab = "Densidad")
 lines(tiempos_3,den_log3,col = "red",lwd = 2)
-
 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 hist(tiempo_O, prob = TRUE, col = "lightgray",
@@ -320,10 +306,7 @@ legend("topright",
        lwd = 2)
 
 
-
-
 # TIME TO REPAIR (CUANTO DURA LA FALLA)
-
 
 # Falla Electrica
 
