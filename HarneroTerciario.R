@@ -94,11 +94,11 @@ legend("topright",
        lwd = 2)
 
 
-# TIME TO REPAIR (Duracion de la falla)
+# TIME TO REPAIR (Cuanto dura la falla)
 
 falla_h <- datos$`Fallas Generales`
 
-# Quitamos los NaN I
+# Quitamos los NaN 
 
 falla_h <- falla_h%>%
   na.omit()
@@ -130,10 +130,8 @@ plot(tiemposF_1,den_gamma4,main = "gamma", xlab = "Horas")
 plot(tiemposF_1,den_exp4,main = "Exponencial", xlab = "Horas")
 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
-#max_y2 <- max(hist(falla_O, plot=FALSE)$density, den_log7)
 hist(falla_h, breaks = 10, prob = TRUE, main ="Histograma y curva aproximada", ylab = "Densidad")
 lines(tiemposF_1,den_log4,col = "red",lwd = 2)
-
 
 par(mfrow = c(1,1), mar = c(4,4,2,1))
 hist(falla_h, prob = TRUE, col = "lightgray",
